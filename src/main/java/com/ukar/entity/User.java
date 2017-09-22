@@ -1,10 +1,12 @@
 package com.ukar.entity;
 
+import java.io.Serializable;
+
 /**
  * Created by jyou on 2017/9/15.
  */
 
-public class User {
+public class User  implements Serializable{
     private Long id;
 
     private String name;

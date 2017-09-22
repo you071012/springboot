@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
@@ -64,6 +65,20 @@ public class RedisConfig {
 //        map.put("test", 60L);
 //        redisCacheManager.setExpires(map);
         return redisCacheManager;
+    }
+
+    /**
+     * 连接工厂bean
+     * @return
+     */
+    @Bean
+    public RedisConnectionFactory redisConnectionFactory(){
+        JedisConnectionFactory factory = new JedisConnectionFactory();
+        factory.setHostName(redisPropertis.getHost());
+        factory.setPassword(redisPropertis.getPassword());
+        factory.setPort(redisPropertis.getPort());
+        factory.setTimeout(redisPropertis.getTimeout());
+        return factory;
     }
 
     /**
