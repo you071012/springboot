@@ -8,9 +8,10 @@ import java.lang.annotation.Target;
 /**
  * Created by jyou on 2017/9/18.
  */
-@Target({ElementType.METHOD})
+@Target({ElementType.METHOD,ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AnnotationDemo {
+    String value();
 
-    String name();
+    String name() default "ukar";
 }
