@@ -3,8 +3,8 @@
 
 <mapper namespace="com.ukar.mapper.UserMapper">
 
-    <select id="selectByName" resultType="User">
-        SELECT * from user where name = #{name}
+    <select id="selectByName" resultType="com.ukar.entity.User">
+        SELECT * from t_user where name = #{name}
     </select>
 
 

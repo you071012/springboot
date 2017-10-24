@@ -22,6 +22,6 @@ public class MapperTest {
     @Test
     public void test(){
         User user = userMapper.selectByName("ukar");
-        System.out.println(user.getIdCard());
+        System.out.println(user.getPassword());
     }
 }
