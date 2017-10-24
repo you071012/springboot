@@ -1,6 +1,8 @@
 package com.ukar;
 
+import com.alibaba.fastjson.JSON;
 import com.ukar.httpclient.HttpClientApi;
+import com.ukar.httpclient.bean.HttpResult;
 import com.ukar.util.AdressUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,4 +36,19 @@ public class HttpClientTest {
         System.out.println(AdressUtils.decodeUnicode(response));
     }
 
+    @Test
+    public void testPushHandle() throws Exception{
+        Map<String,String> params = new HashMap<>();
+        params.put("mobile", "15026676160");
+        params.put("channel", "UMENG");
+        params.put("channelToken", "Ao_BzEdyevrhHpLTVMc8YUwUdmp5oDQ4d0cFxNuv3sMW");
+        params.put("platform", "ANDROID");
+        params.put("client", "MO9");
+        params.put("clientVersion", "1.0.0");
+        params.put("deviceId", "123456");
+        String s = JSON.toJSONString(params);
+        HttpResult httpResult = httpClient.doPostJson("http://192.168.6.201/push/checkIn", s);
+
+        System.out.println(httpResult.getData());
+    }
 }

@@ -1,11 +1,13 @@
 package com.ukar.entity;
 
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.io.Serializable;
 
 /**
  * Created by jyou on 2017/9/15.
  */
-
+@Table(name = "t_user")
 public class User  implements Serializable{
     private Long id;
 
@@ -13,6 +15,7 @@ public class User  implements Serializable{
 
     private String password;
 
+    @Transient
     private String idCard;
 
     public Long getId() {
