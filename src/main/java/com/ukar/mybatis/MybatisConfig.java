@@ -36,6 +36,17 @@ public class MybatisConfig implements TransactionManagementConfigurer {
         bean.setDataSource(dataSource);
         bean.setTypeAliasesPackage("com.ukar.entity");
 
+        //分页插件
+        PageHelper pageHelper = new PageHelper();
+        Properties properties = new Properties();
+        properties.setProperty("reasonable", "true");
+        properties.setProperty("supportMethodsArguments", "true");
+        properties.setProperty("returnPageInfo", "check");
+        properties.setProperty("params", "count=countSql");
+        pageHelper.setProperties(properties);
+
+        //添加插件
+        bean.setPlugins(new Interceptor[]{pageHelper});
         try {
             //添加XML目录
             ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
