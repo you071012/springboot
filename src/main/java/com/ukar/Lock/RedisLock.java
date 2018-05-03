@@ -1,90 +1,85 @@
 package com.ukar.Lock;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.codec.Charsets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by jyou on 2017/9/22.
+ * Redis封装类, 包含一些常用的方法
  *
- * redis实现分布式锁
+ * @author : xjding
+ * @date :   2017-08-22 18:34
  */
-@Component
-public class RedisLock implements DistributLock{
-    private static final Logger logger = LoggerFactory.getLogger(RedisLock.class);
+@Component("redisService")
+public class RedisLock implements RedisService {
 
-    @Autowired
-    private RedisTemplate<String, String> redisTemplate;
+    private static Logger logger = LoggerFactory.getLogger(RedisLock.class);
+
+    @Resource(name = "gluttonRedis")
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Override
-    public boolean tryLock(Lock lock, long timeout, long tryInterval, long lockExpireTime) {
-        try{
-            if(StringUtils.isBlank(lock.getName()) || StringUtils.isBlank(lock.getValue())){
-                logger.info("锁的key和value为空");
-                return false;
-            }
+    public boolean lock(String key, String value, long expire, TimeUnit expireUnit) {
+        return lock(key, value, 0L, null, expire, expireUnit);
+    }
 
-            long startTime = System.currentTimeMillis();//当前时间
+    @Override
+    public boolean lock(final String key, final String value, long timeout, TimeUnit timeoutUnit, long expire, TimeUnit expireUnit) {
+        try {
+            long start = System.nanoTime();
             do {
-                if(!redisTemplate.hasKey(lock.getName())){//不存在锁
-                    ValueOperations<String, String> ops = redisTemplate.opsForValue();
-                    /**
-                     * 设置锁将在lockExpireTime毫秒，如果未设置成功则后自动超时，TimeUnit.MILLISECONDS 毫秒
-                     */
-                    ops.set(lock.getName(), lock.getValue(), lockExpireTime, TimeUnit.MILLISECONDS);
-                    return true;
-                }else{//锁已经存在，处于被占用状态
-                    //锁的剩余生存时间
-                    Long expireTime = redisTemplate.getExpire(lock.getName(), TimeUnit.MILLISECONDS);
-                    if(Math.abs(expireTime - tryInterval) < 10){
-                        Thread.sleep(tryInterval + (tryInterval/2));
+
+                boolean flag = redisTemplate.execute(new RedisCallback<Boolean>() {
+                    @Override
+                    public Boolean doInRedis(RedisConnection redisConnection) throws DataAccessException {
+                        return redisConnection.setNX(key.getBytes(Charsets.UTF_8),
+                                value.getBytes(Charsets.UTF_8));
                     }
-                    logger.debug("锁已经存在，请重试");
+                });
+                if (flag) {
+                    ValueOperations<String, Object> ops = redisTemplate.opsForValue();
+                    ops.set(key, value, expire, TimeUnit.MILLISECONDS);
+                    return Boolean.TRUE;
                 }
-                if((System.currentTimeMillis() - startTime) > timeout){//尝试获取锁超时，直接跳出循环
-                    logger.debug("获取锁超时");
-                    return false;
-                }
-                Thread.sleep(tryInterval);
-            }while(redisTemplate.hasKey(lock.getName()));
-        }catch (Exception e){
-            logger.error("获取锁异常", e);
-            return false;
+                Thread.sleep(100);
+            } while (timeout != 0L && (System.nanoTime() - start) < timeoutUnit.toNanos(timeout));
+            return Boolean.FALSE;
+        } catch (Exception e) {
+            logger.error("[RedisService] 加锁失败, 错误原因: {}", e.getMessage());
+            return Boolean.TRUE;
         }
-        return false;
+    }
+
+    /**
+     * 删除锁，强制执行，可能会释放其他线程占用的锁，
+     * 慎用，慎用！！！
+     *
+     * @param key 锁键
+     */
+    @Override
+    public void unlock(String key) {
+        redisTemplate.delete(key);
     }
 
     @Override
-    public boolean tryRealase(Lock lock) {
-        try{
-            if(redisTemplate.hasKey(lock.getName())){
-                String value = (String)redisTemplate.opsForValue().get(lock.getName());
-                if(lock.getValue().equals(value)){//允许释放锁
-                    return true;
-                }else{
-                    logger.debug("key[{}]的值不符合之前设定，可能已被抢占", lock.getName());
-                    return false;
-                }
+    public void release(Lock lock) {
+        if (lock == null) {
+            return;
+        }
+        if (redisTemplate.hasKey(lock.getName())) {
+            String value = (String) redisTemplate.opsForValue().get(lock.getName());
+            if (lock.getValue().equals(value)) {
+                redisTemplate.delete(lock.getName());
             }
-            logger.debug("key[{}]不存在", lock.getName());
-            return false;
-        }catch (Exception e){
-            logger.error("释放锁出现异常，释放失败", e);
-            return false;
-        }
-
-    }
-
-    @Override
-    public void realase(Lock lock) {
-        if (!StringUtils.isEmpty(lock.getName())) {
-            redisTemplate.delete(lock.getName());
         }
     }
 }

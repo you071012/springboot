@@ -1,43 +1,43 @@
 package com.ukar.Lock;
 
+
+import com.ukar.util.RandomValue;
+import org.apache.commons.lang3.time.DateFormatUtils;
+
+import java.util.Date;
+
 /**
- * Created by jyou on 2017/9/22.
- *
- * 分布式锁
+ * 全局锁，包括锁的名称
+ * Created by sun on 2017/8/18.
  */
 public class Lock {
-    /**
-     * 锁的key
-     */
-    private String name;
 
-    /**
-     * 锁的value
-     */
-    private String value;
+  private String name;
+  private String value;
 
+  public Lock(String name)
+  {
+    this.name = name;
 
-    public Lock() {
-    }
+    Date now = new Date();
+    int i = RandomValue.getNum(23,10000);
+    String timestamp = DateFormatUtils.format(now,"yyyyMMddHHmmssSSS");
+    this.value = i+timestamp;
 
-    public Lock(String name, String value) {
-        this.name = name;
-        this.value = value;
-    }
+  }
 
-    public String getName() {
-        return name;
-    }
+  public Lock(String name, String value) {
+    this.name = name;
+    this.value = value;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public String getValue() {
-        return value;
-    }
+  public String getValue() {
+    return value;
+  }
 
-    public void setValue(String value) {
-        this.value = value;
-    }
 }
+
