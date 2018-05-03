@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>大乐透号码生成</title>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+</head>
+<body>
+
+<input type="button" onclick="randomNum(35,5);" value="点击"/>点击35
+<br/><br/>
+<input type="button" onclick="randomNum(12,2);" value="点击"/>点击12
+<br/><br/>
+<div id="choice_35">
+    35选5号码：
+</div>
+<br/><br/>
+<div id="choice_12">
+    12选2号码：
+</div>
+
+</body>
+
+<script>
+    function randomNum(max, length) {
+        var min = 1;
+        var arr = new Array();
+        for(var i = 0; i < length; i++){
+            var intNum = parseInt(Math.random()*(max-min+1)+min,10).toString();
+            while(true){
+                var index = check(arr, intNum);
+                if(index != -1){
+                    intNum = parseInt(Math.random()*(max-min+1)+min,10).toString();
+                }else{
+                    break;
+                }
+            }
+            arr.push(intNum);
+        }
+
+        if(max == 35){
+            arr = arr.sort(numAscSort);
+            document.getElementById("choice_35").innerHTML = "35选5号码：" +  arr.toString();
+        }
+
+        if(max == 12){
+            arr = arr.sort(numAscSort);
+            document.getElementById("choice_12").innerHTML = "12选2号码：" +  arr.toString();
+        }
+    }
+
+    function check(arr, num){
+        var index = -1;
+        for(var i = 0; i < arr.length; i++){
+            if(num == arr[i]){
+                return i;
+            }
+        }
+        return index;
+    }
+
+    function numAscSort(a,b)
+    {
+        return a - b;
+    }
+    
+</script>
+
+</html>

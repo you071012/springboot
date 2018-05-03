@@ -3,6 +3,7 @@ package com.ukar.entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * Created by jyou on 2017/9/15.
@@ -17,6 +18,8 @@ public class User  implements Serializable{
 
     @Transient
     private String idCard;
+
+    private LocalDateTime createTime;
 
     public Long getId() {
         return id;
@@ -48,5 +51,24 @@ public class User  implements Serializable{
 
     public void setIdCard(String idCard) {
         this.idCard = idCard;
+    }
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", idCard='" + idCard + '\'' +
+                ", createTime=" + createTime +
+                '}';
     }
 }

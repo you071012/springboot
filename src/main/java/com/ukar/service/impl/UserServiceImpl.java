@@ -41,4 +41,12 @@ public class UserServiceImpl implements UserService{
         PageInfo<User> page = new PageInfo<>(list);
         return page;
     }
+
+    @Override
+    public User insert(User user) {
+        int i = userMapper.insertSelective(user);
+        return null;
+    }
+
+
 }

@@ -11,21 +11,21 @@
     <script src="https://g.alicdn.com/aliww/??h5.openim.sdk/1.0.6/scripts/wsdk.js,h5.openim.kit/0.3.3/scripts/kit.js" charset="utf-8"></script>
 </head>
 <body>
-    <h1>Hello Ukar01</h1>
+    <h1>Hello Ukar02</h1>
 </body>
 <script>
     WKIT.init({
         container: document.getElementById('J_demo'),
         width: 700,
         height: 500,
-        uid: 'ukar01',//登陆账号
+        uid: 'ukar02',
         appkey: 24789120,
-        credential: '123456',//密码
-        touid: 'ukar03',//接收方账号
-        onMsgReceived: function(content){//接收消息回调
+        credential: '123456',
+        touid: 'ukar01',
+        onMsgReceived: function(content){
             return '<span controls="controls">' + content + '</span>';
         },
-        onMsgSent:function(content){//发送成功回调
+        onMsgSent:function(content){
             return '<span controls="controls">' + content + '</span>';
         }
     });

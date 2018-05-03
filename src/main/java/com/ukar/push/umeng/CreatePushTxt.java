@@ -1,16 +1,33 @@
 package com.ukar.push.umeng;
 
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by jyou on 2017/10/19.
  */
 public class CreatePushTxt {
-    private static String basePath = "C:\\Users\\jyou\\Desktop\\umeng\\push10-19\\";
+    //TODO 每次都要修改
+    private static String basePath = "C:\\Users\\jyou\\Desktop\\umeng\\push12-18\\";
 
     public static void main(String[] args) throws Exception{
-        read("ANDROID.txt");
-        read("IOS.txt");
+        /**
+         * 生成推送文件
+         */
+//        read("ANDROID.txt");
+//        read("IOS.txt");
+
+
+        /**
+         * 查询推送结果
+         */
+//        UMeng umeng = new UMeng();
+//        umeng.search("C:\\Users\\jyou\\Desktop\\umeng\\push.txt");
+
+
+        int i = readLine("30000_android.txt");
+        System.out.println(i);
     }
 
 
@@ -32,7 +49,7 @@ public class CreatePushTxt {
                 str.append(line);
                 str.append("\r\n");
             }
-            if(i % 10000 == 0){//第5000条
+            if(i % 10000 == 0){
                 str.append(line);
                 String s = str.toString();
                 String name = basePath +  + i + "_" + fileName.toLowerCase();
@@ -68,6 +85,26 @@ public class CreatePushTxt {
         while((line = br.readLine())!=null){
             i++;
         }
+        br.close();
+        return i;
+    }
+
+    public static int test(String fileName) throws IOException {
+        Map<String, Object> map = new HashMap<>();
+        File file = new File(basePath + fileName);
+        StringBuffer str = new StringBuffer();
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        String line = null;
+        int i = 0;
+        while((line = br.readLine())!=null){
+            String[] temp = new String[6] ;
+            String[] split = line.split("\\|");
+            temp[0] = split[4].trim();//业务流水号
+            map.put("" + i , temp);
+            i++;
+        }
+        br.close();
+        System.out.println(map.size());
         return i;
     }
 }

@@ -12,4 +12,6 @@ public interface UserService {
     User update(User user);
 
     PageInfo<User> selectList();
+
+    User insert(User user);
 }
