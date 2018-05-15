@@ -27,27 +27,5 @@ public class LockTest {
     private long lockExpireTime = 120000L;
 
 
-    @Test
-    public void test(){
-
-        Lock lock = new Lock("123456key", "123456value");
-        for(int i = 0 ; i < 2 ; i++){
-            /**
-             * 获取锁
-             */
-            boolean tryLock = redisLock.tryLock(lock, timeout, tryInterval, lockExpireTime);
-            if(tryLock){//获取锁成功
-                System.out.println("获取锁true");
-                boolean tryRealase = redisLock.tryRealase(lock);
-                if(tryRealase){
-                    redisLock.realase(lock);
-                }
-            }else{
-                System.out.println("获取锁false");
-            }
-        }
-
-    }
-
 
 }

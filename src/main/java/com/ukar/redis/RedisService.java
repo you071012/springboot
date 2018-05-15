@@ -135,6 +135,12 @@ public class RedisService {
         return hash.get(key,hashKey);
     }
 
+    public Set<Object> hGetKeys(String key){
+        HashOperations<String, Object, Object> hash = redisTemplate.opsForHash();
+        Set<Object> keys = hash.keys(key);
+        return keys;
+    }
+
     /**
      * 列表添加
      * @param k

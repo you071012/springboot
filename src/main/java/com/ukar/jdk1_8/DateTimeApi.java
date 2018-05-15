@@ -67,6 +67,7 @@ public class DateTimeApi {
         LocalTime localTime = DateTimeApi.parseLocalTime("22:15");
         System.out.println(localTime);
         LocalDateTime now = LocalDateTime.now();
+        System.out.println(now);
         System.out.println(now.getMonthValue());
         System.out.println(now.getDayOfMonth());
         System.out.println(now.getYear());

@@ -25,7 +25,7 @@ public class UmengTask {
     private String end = "_ios.txt";
     private boolean boo = true;
 
-    @Scheduled(cron="0/10 0 * * * ?") //每10分钟执行一次
+//    @Scheduled(cron="0/10 0 * * * ?") //每10分钟执行一次
     public void task() {
         try{
             //TODO fileName自定义，地址需要改动

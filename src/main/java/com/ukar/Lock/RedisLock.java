@@ -19,12 +19,12 @@ import java.util.concurrent.TimeUnit;
  * @author : xjding
  * @date :   2017-08-22 18:34
  */
-@Component("redisService")
+@Component
 public class RedisLock implements RedisService {
 
     private static Logger logger = LoggerFactory.getLogger(RedisLock.class);
 
-    @Resource(name = "gluttonRedis")
+    @Resource
     private RedisTemplate<String, Object> redisTemplate;
 
     @Override

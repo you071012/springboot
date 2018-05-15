@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Set;
+
 /**
  * Created by jyou on 2017/9/20.
  */
@@ -27,6 +29,13 @@ public class RedisTest {
         System.out.println(key3);
 //        Object key2 = redisService.get("key2");
 //        System.out.println(key2);
+
+//        redisService.hSet("hset", "key01", "123");
+//        redisService.hSet("hset", "key02", "456");
+        Object o = redisService.hGet("hset", "key01");
+        System.out.println(o);
+        Set<Object> hset = redisService.hGetKeys("hset");
+        System.out.println(hset);
     }
 
 }
