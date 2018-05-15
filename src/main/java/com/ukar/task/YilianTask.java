@@ -25,7 +25,7 @@ public class YilianTask {
     @Resource
     private HttpClientApi httpClientApi;
 
-    @Scheduled(cron="0 0 11 * * ?") //每10分钟执行一次
+    @Scheduled(cron="0 0 0 * * ?")
     public void task() throws IOException {
         System.out.println("------------------------查询易联余额定时任务开始执行--------------------------");
         String s = httpClientApi.doGet("https://www.mo9.com/gateway/proxypay/yilianpay/queryBalance.mhtml");
@@ -35,6 +35,11 @@ public class YilianTask {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM:dd HH:mm:ss");
         String format = sdf.format(date);
         javaMailUtil.sendEmail("易联余额", "当前查询时间为：" + format + "，易联余额为：" + String.valueOf(amount));
+    }
+
+    @Scheduled(cron="0 0 12 * * ?")
+    public void task2() throws IOException {
+        javaMailUtil.sendEmail("测试邮件", "这是一个测试邮件");
     }
 
 }
