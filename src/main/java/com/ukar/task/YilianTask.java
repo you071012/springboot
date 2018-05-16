@@ -32,14 +32,10 @@ public class YilianTask {
         JSONObject parse = (JSONObject) JSON.parse(s);
         BigDecimal amount = parse.getBigDecimal("amount");
         Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM:dd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String format = sdf.format(date);
         javaMailUtil.sendEmail("易联余额", "当前查询时间为：" + format + "，易联余额为：" + String.valueOf(amount));
-    }
-
-    @Scheduled(cron="0 0 12 * * ?")
-    public void task2() throws IOException {
-        javaMailUtil.sendEmail("测试邮件", "这是一个测试邮件");
+        System.out.println("------------------------定时任务执行成功--------------------------");
     }
 
 }

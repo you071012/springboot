@@ -22,7 +22,7 @@ public class JavaMailUtil {
     private static final Logger logger = LoggerFactory.getLogger(JavaMailUtil.class);
 
     // 收件人邮箱
-    String to = "ljyao@mo9.com";
+    String to = "you071012@qq.com,ljyao@mo9.com";
 
     // 发件人电子邮箱
     String from = "jyou@mo9.com";
