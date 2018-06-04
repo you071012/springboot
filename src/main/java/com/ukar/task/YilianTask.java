@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ukar.httpclient.HttpClientApi;
 import com.ukar.util.JavaMailUtil;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +12,7 @@ import javax.annotation.Resource;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -34,8 +36,28 @@ public class YilianTask {
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String format = sdf.format(date);
+
+        Calendar instance = Calendar.getInstance();
+        instance.setTime(date);
+        int hour = instance.get(Calendar.HOUR);//获取时
+        int minute = instance.get(Calendar.MINUTE);//获取分
+        if(hour != 0){
+            System.out.println("------------------------当前时间不是0点，不发送邮件------------------------");
+            return;
+        }
+        if(minute > 5){
+            System.out.println("------------------------当前时间超过指定时间5min，不发送邮件------------------------");
+            return;
+        }
         javaMailUtil.sendEmail("易联余额", "当前查询时间为：" + format + "，易联余额为：" + String.valueOf(amount));
         System.out.println("------------------------定时任务执行成功--------------------------");
+    }
+
+    @Scheduled(cron="0 0 0/1 * * ?")
+    public void listenTask(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        System.out.println("------------------------系统正常执行中,time=" + sdf.format(date) + "------------------------");
     }
 
 }
