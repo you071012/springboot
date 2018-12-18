@@ -3,13 +3,13 @@ package com.ukar.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.ukar.entity.Advertisement;
-import com.ukar.entity.EthListData;
-import com.ukar.entity.PaymentMode;
-import com.ukar.entity.UserInfo;
+import com.ukar.entity.*;
 import com.ukar.httpclient.HttpClientApi;
+import com.ukar.mapper.UserMapper;
 import com.ukar.service.IoexService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.io.IOException;
@@ -26,6 +26,11 @@ public class IoexServiceImpl implements IoexService{
 
     @Resource
     private HttpClientApi httpClientApi;
+
+    @Resource
+    private UserMapper userMapper;
+
+
 
     @Override
     public List<EthListData> getEthList() throws IOException {
@@ -80,5 +85,15 @@ public class IoexServiceImpl implements IoexService{
             String ticket = httpClientApi.doGet("https://www.ioex.com/dandelionApi/api/dandelion/v1/order/ticket");
 
         }
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void updateUser() {
+        User user = new User();
+        user.setName("test000000004");
+        user.setPassword("456789");
+        userMapper.insertSelective(user);
+        throw new RuntimeException("出现异常");
     }
 }

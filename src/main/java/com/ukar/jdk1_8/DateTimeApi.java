@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
+import java.util.function.Supplier;
 
 /**
  * Created by jyou on 2018/4/10.
@@ -73,5 +74,8 @@ public class DateTimeApi {
         System.out.println(now.getYear());
         System.out.println(now.getMinute());
 
+        Supplier<DateTimeApi> s = DateTimeApi::new;
+        DateTimeApi dateTimeApi = s.get();
+        System.out.println(dateTimeApi);
     }
 }

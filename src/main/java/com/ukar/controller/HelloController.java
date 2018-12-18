@@ -3,6 +3,7 @@ package com.ukar.controller;
 import com.ukar.Test.Consume;
 import com.ukar.Test.Product;
 import com.ukar.Test.QueueDemo;
+import com.ukar.annotation.AnnotationDemo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,20 +22,21 @@ public class HelloController {
 
 
     @RequestMapping("/index")
+    @AnnotationDemo(value = "nice")
     public String index(){
         System.out.println("hello开始执行");
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.println("线程睡眠一秒");
-        Product p = new Product();
-        Consume c = new Consume();
-        ExecutorService service = Executors.newCachedThreadPool();
-        service.execute(p);
-        service.execute(c);
-        service.shutdown();
+//        try {
+//            Thread.sleep(1000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//        System.out.println("线程睡眠一秒");
+//        Product p = new Product();
+//        Consume c = new Consume();
+//        ExecutorService service = Executors.newCachedThreadPool();
+//        service.execute(p);
+//        service.execute(c);
+//        service.shutdown();
         return "hello";
     }
 

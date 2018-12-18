@@ -11,7 +11,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by jyou on 2017/9/22.
@@ -27,9 +29,22 @@ public class IoexTest {
 
     @Test
     public void testGetEthList() throws IOException {
-        List<EthListData> ethList = ioexService.getEthList();
-        System.out.println(ethList.size());
+//        List<EthListData> ethList = ioexService.getEthList();
+        Map<String, String> map = new HashMap<>();
+        map.put("name1", "zhangsan");
+        map.put("name2", "lisi");
+        map.forEach((key, value) -> System.out.println(key + value));
+
     }
+
+    public static void main(String[] args) {
+        Map<String, String> map = new HashMap<>();
+        map.put("name1", "zhangsan");
+        map.put("name2", "lisi");
+        map.forEach((key, value) -> System.out.println(key + value));
+
+    }
+
 
 
 }

@@ -186,8 +186,8 @@ public class HttpClientTest {
     @Test
     public void testPorxyDeduct() throws IOException {
         Map<String, String> params = new HashMap<String, String>();
-        params.put("bizSys", "JHJJ");
-        params.put("invoice", "1519195039288152032056712774cd558");
+        params.put("bizSys", "mis.deduct");
+        params.put("invoice", "153633609557215375853847174e211365");
 
         String sign = sign(params);
         params.put("sign", sign);

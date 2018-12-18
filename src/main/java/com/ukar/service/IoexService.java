@@ -13,4 +13,6 @@ public interface IoexService {
     List<EthListData> getEthList() throws IOException;
 
     void add(List<EthListData> list) throws IOException;
+
+    void updateUser();
 }

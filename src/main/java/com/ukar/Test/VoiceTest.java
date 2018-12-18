@@ -1,5 +1,6 @@
 package com.ukar.Test;
 
+import com.alibaba.fastjson.JSON;
 import com.ukar.httpclient.HttpClientApi;
 import com.ukar.util.PostRequest;
 
@@ -17,18 +18,54 @@ public class VoiceTest {
 
 
     public static void main(String[] args) throws Exception {
-
-        String[] p1 = readFile("C:\\Users\\jyou\\Desktop\\daihou\\mobile.txt");
-        for (int i = 0; i < p1.length; i++) {
-            voiceSms(p1[i]);
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+//        System.out.println(Integer.toBinaryString(-5));
+        String[] strings = readFile("C:\\Users\\jyou\\Desktop\\springboot\\aa.txt");
+        for(int i = 0; i < strings.length; i++){
+            String[] split = strings[i].split(",");
+            sendSms(split);
         }
+
     }
 
+    public static void sendSms(String[] datas) throws IOException {
+        Map<String, Object> tempParams = new HashMap<String, Object>();
+        String name = datas[0];
+        String[] split = name.split("\uFEFF");
+        if(split != null && split.length == 2){
+            name = split[1];
+        }
+        tempParams.put("user_name", name);
+        tempParams.put("payment_time", datas[3].trim());
+        tempParams.put("payment_amount", datas[2].trim());
+        // todo 每次都需要修改
+//        tempParams.put("today", "2018-08-07");
+        Map<String,String> params = new HashMap<String,String>();
+
+        params.put("mobile", datas[1].trim());
+        params.put("template_name", "batch_deal_dunning_all");
+        params.put("template_data", JSON.toJSONString(tempParams).toString());
+        params.put("template_tags", "CN");
+
+        params.put("snc_version", "2.0");
+        params.put("biz_sys","JHJJ");
+        params.put("product_name", "JHJJ");
+        params.put("biz_type", "dunning");
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        /**
+         * 固定参数信息
+         */
+        params.put("client_id", "S_soaDefClient");
+        params.put("valid_type", "secret");
+        params.put("valid_token", "kdjdi95@d7");
+        String response = PostRequest.postRequest("https://www.mo9.com/snc/sms/sendSms", params);
+        System.out.println(response);
+    }
 
     public static void voiceSms(String mobile) throws IOException {
         Map<String,String> params = new HashMap<String,String>();
@@ -64,12 +101,12 @@ public class VoiceTest {
         String line = null;
         while((line = br.readLine())!=null){
             buffer.append(line);
-            buffer.append(",");
+            buffer.append("&");
         }
         br.close();
         String str = buffer.toString();
         str = str.substring(0 , str.length() - 1);
-        String[] split = str.split(",");
+        String[] split = str.split("&");
         return split;
     }
 

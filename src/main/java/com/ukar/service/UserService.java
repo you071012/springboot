@@ -14,4 +14,6 @@ public interface UserService {
     PageInfo<User> selectList();
 
     User insert(User user);
+
+    void testTransactional();
 }

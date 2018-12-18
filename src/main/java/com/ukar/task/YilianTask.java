@@ -41,11 +41,11 @@ public class YilianTask {
         instance.setTime(date);
         int hour = instance.get(Calendar.HOUR);//获取时
         int minute = instance.get(Calendar.MINUTE);//获取分
-        if(hour != 0){
+        if(hour != 0 && hour != 23){
             System.out.println("------------------------当前时间不是0点，不发送邮件------------------------");
             return;
         }
-        if(minute > 5){
+        if((hour == 0 && minute > 3) || (hour == 23 && minute < 57)){
             System.out.println("------------------------当前时间超过指定时间5min，不发送邮件------------------------");
             return;
         }
