@@ -1,16 +1,19 @@
 package com.ukar.controller;
 
-import com.ukar.Test.Consume;
-import com.ukar.Test.Product;
-import com.ukar.Test.QueueDemo;
+import com.alibaba.fastjson.JSONObject;
 import com.ukar.annotation.AnnotationDemo;
+import com.ukar.httpclient.HttpClientApi;
+import org.apache.http.client.HttpClient;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import javax.annotation.Resource;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URL;
+
 
 /**
  * Created by jyou on 2017/9/5.
@@ -18,30 +21,19 @@ import java.util.concurrent.Executors;
 @Controller
 @RequestMapping("/hello")
 public class HelloController {
-
+    @Resource
+    private HttpClientApi httpClient;
 
 
     @RequestMapping("/index")
+    @ResponseBody
     @AnnotationDemo(value = "nice")
-    public String index(){
-        System.out.println("hello开始执行");
-//        try {
-//            Thread.sleep(1000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//        System.out.println("线程睡眠一秒");
-//        Product p = new Product();
-//        Consume c = new Consume();
-//        ExecutorService service = Executors.newCachedThreadPool();
-//        service.execute(p);
-//        service.execute(c);
-//        service.shutdown();
+    public String index() {
         return "hello";
     }
 
     @RequestMapping("/model_index")
-    public ModelAndView modelIndex(){
+    public ModelAndView modelIndex() {
         return new ModelAndView("hello");
     }
 }

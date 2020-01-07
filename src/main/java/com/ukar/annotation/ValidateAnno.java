@@ -6,12 +6,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Created by jyou on 2017/9/18.
+ * @author jia.you
+ * @date 2019/02/26
  */
-@Target({ElementType.METHOD, ElementType.TYPE})
+@Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface AnnotationDemo {
-    String value();
+public @interface ValidateAnno {
 
-    String name() default "ukar";
+    boolean nullAble() default false;
+
+    int maxLength();
 }

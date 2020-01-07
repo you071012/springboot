@@ -6,6 +6,10 @@
     <select id="selectByName" resultType="com.ukar.entity.User">
         SELECT * from t_user where name = #{name}
     </select>
+    <select id="load">
+      load data local infile 'C:/Users/jia.you/Desktop/file/ukar/sqlload/mysql/aa.txt'
+      into table t_user fields terminated by ',' lines terminated by '\r\n' ;
+    </select>
 
 
 </mapper>

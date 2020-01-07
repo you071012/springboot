@@ -11,7 +11,7 @@ public class CreatePushTxt {
     //TODO 每次都要修改
     private static String basePath = "C:\\Users\\jyou\\Desktop\\umeng\\push12-18\\";
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
         /**
          * 生成推送文件
          */
@@ -32,7 +32,7 @@ public class CreatePushTxt {
 
 
     public static void write(String content, String fileName) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter(new File(fileName),true));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(new File(fileName), true));
         writer.write(content);
         writer.close();
     }
@@ -44,24 +44,24 @@ public class CreatePushTxt {
         String line = null;
         int i = 1;
         int max = readLine(fileName);
-        while((line = br.readLine())!=null){//使用readLine方法，一次读一行
-            if( i % 10000 != 0){
+        while ((line = br.readLine()) != null) {//使用readLine方法，一次读一行
+            if (i % 10000 != 0) {
                 str.append(line);
                 str.append("\r\n");
             }
-            if(i % 10000 == 0){
+            if (i % 10000 == 0) {
                 str.append(line);
                 String s = str.toString();
-                String name = basePath +  + i + "_" + fileName.toLowerCase();
+                String name = basePath + +i + "_" + fileName.toLowerCase();
                 write(s, name);
                 str = new StringBuffer();
             }
 
-            if(i == max){
+            if (i == max) {
                 String s = str.toString();
                 int a = i % 10000;
                 i = i - a + 10000;
-                String name = basePath +  + i + "_" + fileName.toLowerCase();
+                String name = basePath + +i + "_" + fileName.toLowerCase();
                 write(s, name);
                 break;
             }
@@ -73,6 +73,7 @@ public class CreatePushTxt {
 
     /**
      * 推送读取文件有多少行数据
+     *
      * @return
      * @throws IOException
      */
@@ -82,7 +83,7 @@ public class CreatePushTxt {
         BufferedReader br = new BufferedReader(new FileReader(file));
         String line = null;
         int i = 0;
-        while((line = br.readLine())!=null){
+        while ((line = br.readLine()) != null) {
             i++;
         }
         br.close();
@@ -96,11 +97,11 @@ public class CreatePushTxt {
         BufferedReader br = new BufferedReader(new FileReader(file));
         String line = null;
         int i = 0;
-        while((line = br.readLine())!=null){
-            String[] temp = new String[6] ;
+        while ((line = br.readLine()) != null) {
+            String[] temp = new String[6];
             String[] split = line.split("\\|");
             temp[0] = split[4].trim();//业务流水号
-            map.put("" + i , temp);
+            map.put("" + i, temp);
             i++;
         }
         br.close();

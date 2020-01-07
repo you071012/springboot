@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.interceptor.KeyGenerator;
@@ -69,10 +70,11 @@ public class RedisConfig {
 
     /**
      * 连接工厂bean
+     *
      * @return
      */
     @Bean
-    public RedisConnectionFactory redisConnectionFactory(){
+    public RedisConnectionFactory redisConnectionFactory() {
         JedisConnectionFactory factory = new JedisConnectionFactory();
         factory.setHostName(redisPropertis.getHost());
         factory.setPassword(redisPropertis.getPassword());
@@ -83,6 +85,7 @@ public class RedisConfig {
 
     /**
      * RedisTemplate配置
+     *
      * @param factory
      * @return
      */
@@ -97,9 +100,10 @@ public class RedisConfig {
 
     /**
      * redis缓存对象序列化接口
+     *
      * @param template
      */
-    private void setSerializer (StringRedisTemplate template) {
+    private void setSerializer(StringRedisTemplate template) {
         Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);

@@ -11,7 +11,7 @@ import java.util.Date;
  * Created by jyou on 2017/9/15.
  */
 @Table(name = "t_user")
-public class User  implements Serializable{
+public class User implements Serializable {
     private Long id;
 
     private String name;

@@ -7,7 +7,7 @@ import com.ukar.push.umeng.bean.AndroidNotification;
  * Created by jyou on 2017/10/19.
  */
 public class AndroidFilecast extends AndroidNotification {
-    public AndroidFilecast(String appkey,String appMasterSecret) throws Exception {
+    public AndroidFilecast(String appkey, String appMasterSecret) throws Exception {
         setAppMasterSecret(appMasterSecret);
         setPredefinedKeyValue("appkey", appkey);
         this.setPredefinedKeyValue("type", "filecast");

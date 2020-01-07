@@ -10,7 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Created by jyou on 2017/9/22.
- *
+ * <p>
  * redis分布式锁测试
  */
 @RunWith(SpringRunner.class)
@@ -25,7 +25,6 @@ public class LockTest {
     private long tryInterval = 500L;
 
     private long lockExpireTime = 120000L;
-
 
 
 }

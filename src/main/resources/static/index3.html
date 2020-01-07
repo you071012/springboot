@@ -8,10 +8,11 @@
     <script src="https://g.alicdn.com/aliww/ww/json/json.js" charset="utf-8"></script>
     <![endif]-->
     <!-- 自动适配移动端与pc端 -->
-    <script src="https://g.alicdn.com/aliww/??h5.openim.sdk/1.0.6/scripts/wsdk.js,h5.openim.kit/0.3.3/scripts/kit.js" charset="utf-8"></script>
+    <script src="https://g.alicdn.com/aliww/??h5.openim.sdk/1.0.6/scripts/wsdk.js,h5.openim.kit/0.3.3/scripts/kit.js"
+            charset="utf-8"></script>
 </head>
 <body>
-    <h1>Hello Ukar03</h1>
+<h1>Hello Ukar03</h1>
 </body>
 <script>
     WKIT.init({
@@ -22,10 +23,10 @@
         appkey: 24789120,
         credential: '123456',//密码
         touid: 'ukar01',//接收方账号
-        onMsgReceived: function(content){//接收消息回调
+        onMsgReceived: function (content) {//接收消息回调
             return '<span controls="controls">' + content + '</span>';
         },
-        onMsgSent:function(content){//发送成功回调
+        onMsgSent: function (content) {//发送成功回调
             return '<span controls="controls">' + content + '</span>';
         }
     });

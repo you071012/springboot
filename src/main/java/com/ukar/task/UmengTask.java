@@ -13,7 +13,7 @@ import java.io.IOException;
 
 /**
  * Created by jyou on 2017/10/24.
- *
+ * <p>
  * 友盟定时任务
  */
 @Component
@@ -25,9 +25,9 @@ public class UmengTask {
     private String end = "_ios.txt";
     private boolean boo = true;
 
-//    @Scheduled(cron="0/10 0 * * * ?") //每10分钟执行一次
+    //    @Scheduled(cron="0/10 0 * * * ?") //每10分钟执行一次
     public void task() {
-        try{
+        try {
             //TODO fileName自定义，地址需要改动
             String fileName = "C:\\Users\\jyou\\Desktop\\umeng\\push12-18\\";
             fileName = fileName + i + end;
@@ -37,31 +37,31 @@ public class UmengTask {
 
             //TODO title需要改变
             String title = "失信者必将处处受限，mo9信用钱包积极响应“信联”共建信用机制！";
-            if(fileName.endsWith("android.txt")){
+            if (fileName.endsWith("android.txt")) {
                 result = umeng.sendAndroidFilecast(tokens, title);
-            }else if(fileName.endsWith("ios.txt")){
+            } else if (fileName.endsWith("ios.txt")) {
                 result = umeng.sendIOSFilecast(tokens, title);
-            }else{
+            } else {
                 logger.error("读取文件出现错误................................");
             }
             result = i + end.split("\\.")[0] + "--" + result + "\r\n";
             write(result, "C:\\Users\\jyou\\Desktop\\umeng\\push.txt");
             String name = i + end;
-            if(boo){
-                if("_ios.txt".equals(end)){
+            if (boo) {
+                if ("_ios.txt".equals(end)) {
                     end = "_android.txt";
-                }else if("_android.txt".equals(end)){
+                } else if ("_android.txt".equals(end)) {
                     end = "_ios.txt";
                     i = i + 10000;
-                }else{
+                } else {
                     logger.error("计算i出现错误................................");
                 }
-            }else{
+            } else {
                 i = i + 10000;
             }
             logger.info(name + "执行完毕，" + "文件切换为：" + i + end + "准备执行................................");
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             boo = false;
             //TODO 可能需要改动，当ios文件多时end = "_ios.txt"，当android文件多时，end = "_android.txt";
@@ -72,7 +72,7 @@ public class UmengTask {
     }
 
     public void write(String content, String fileName) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter(new File(fileName),true));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(new File(fileName), true));
         writer.write(content);
         writer.flush();
         writer.close();

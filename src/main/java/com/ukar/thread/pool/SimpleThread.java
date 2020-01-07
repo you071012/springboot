@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
  * Created by jyou on 2018/4/9.
  */
 @Component
-public class SimpleThread extends Thread{
+public class SimpleThread extends Thread {
     private boolean isRunning;
     private GenericObjectPool pool;
 

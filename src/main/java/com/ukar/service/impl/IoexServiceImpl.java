@@ -22,14 +22,13 @@ import java.util.Map;
  * Created by jyou on 2018/5/5.
  */
 @Service
-public class IoexServiceImpl implements IoexService{
+public class IoexServiceImpl implements IoexService {
 
     @Resource
     private HttpClientApi httpClientApi;
 
     @Resource
     private UserMapper userMapper;
-
 
 
     @Override
@@ -43,18 +42,18 @@ public class IoexServiceImpl implements IoexService{
         headers.put("timestamp", System.currentTimeMillis() + "");
         String response = httpClientApi.doGetByHeader("https://www.ioex.com/dandelionApi/api/dandelion/v1/ad/get_list?type=SELL&digitalCurrencyId=2&currentPage=1&pageSize=10", headers);
         List<EthListData> list = new ArrayList<>();
-        if(response != null){
+        if (response != null) {
             JSONObject jsonObject = (JSONObject) JSON.parse(response);
             JSONObject data = jsonObject.getJSONObject("data");
             JSONArray arr = data.getJSONArray("entities");
-            for(int i = 0 ; i < arr.size() ; i++){
+            for (int i = 0; i < arr.size(); i++) {
                 JSONObject json = (JSONObject) arr.get(i);
                 JSONArray paymentModeArr = (JSONArray) json.get("paymentMode");
                 JSONObject paymentMode = new JSONObject();
-                for(int j = 0 ; j < paymentModeArr.size() ; j++){
+                for (int j = 0; j < paymentModeArr.size(); j++) {
                     JSONObject jsonObject1 = (JSONObject) paymentModeArr.get(j);
                     Integer paymentModeId = jsonObject1.getInteger("paymentModeId");
-                    if(paymentModeId == 3){
+                    if (paymentModeId == 3) {
                         paymentMode = jsonObject1;
                     }
                 }
@@ -78,10 +77,10 @@ public class IoexServiceImpl implements IoexService{
 
     @Override
     public void add(List<EthListData> list) throws IOException {
-        if(list == null || list.size() == 0){
+        if (list == null || list.size() == 0) {
             return;
         }
-        for(int i = 0 ; i < list.size(); i++){
+        for (int i = 0; i < list.size(); i++) {
             String ticket = httpClientApi.doGet("https://www.ioex.com/dandelionApi/api/dandelion/v1/order/ticket");
 
         }

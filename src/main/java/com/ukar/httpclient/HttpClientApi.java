@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ import java.util.Set;
 
 /**
  * Created by jyou on 2017/8/17.
- *
+ * <p>
  * httpclient封装通用类
  */
 @Component("httpClientApi")
@@ -66,8 +67,30 @@ public class HttpClientApi implements BeanFactoryAware {
             if (response.getStatusLine().getStatusCode() == 200) {
                 return EntityUtils.toString(response.getEntity(), "UTF-8");
             }
-        }catch (Exception e){
-            logger.error("httpClientApi发送请求出现异常response={}",response, e);
+        } catch (Exception e) {
+            logger.error("httpClientApi发送请求出现异常response={}", response, e);
+        } finally {
+            if (response != null) {
+                response.close();
+            }
+        }
+        return null;
+    }
+
+    public String doGet(URI uri) throws ClientProtocolException, IOException {
+        // 创建http GET请求
+        HttpGet httpGet = new HttpGet(uri);
+        httpGet.setConfig(requestConfig);
+        CloseableHttpResponse response = null;
+        try {
+            // 执行请求
+            response = getHttpClient().execute(httpGet);
+            // 判断返回状态是否为200
+            if (response.getStatusLine().getStatusCode() == 200) {
+                return EntityUtils.toString(response.getEntity(), "UTF-8");
+            }
+        } catch (Exception e) {
+            logger.error("httpClientApi发送请求出现异常response={}", response, e);
         } finally {
             if (response != null) {
                 response.close();
@@ -83,9 +106,9 @@ public class HttpClientApi implements BeanFactoryAware {
         // 创建http GET请求
         HttpGet httpGet = new HttpGet(url);
         httpGet.setConfig(requestConfig);
-        if(headers != null){
+        if (headers != null) {
             Set<String> set = headers.keySet();
-            for(String key : set){
+            for (String key : set) {
                 httpGet.addHeader(key, headers.get(key));
             }
         }
@@ -97,8 +120,8 @@ public class HttpClientApi implements BeanFactoryAware {
             if (response.getStatusLine().getStatusCode() == 200) {
                 return EntityUtils.toString(response.getEntity(), "UTF-8");
             }
-        } catch (Exception e){
-            logger.error("httpClientApi发送请求出现异常response={}",response, e);
+        } catch (Exception e) {
+            logger.error("httpClientApi发送请求出现异常response={}", response, e);
         } finally {
             if (response != null) {
                 response.close();
@@ -130,6 +153,7 @@ public class HttpClientApi implements BeanFactoryAware {
 
     /**
      * 执行GET请求，可添加参数，如果响应200返回响应的内容，如果非200返回null
+     *
      * @param url
      * @param params
      * @return
@@ -180,9 +204,9 @@ public class HttpClientApi implements BeanFactoryAware {
                 data = EntityUtils.toString(httpEntity, "UTF-8");
             }
             return new HttpResult(response.getStatusLine().getStatusCode(), data);
-        } catch (Exception e){
-            logger.error("httpClientApi发送请求出现异常response={}",response, e);
-        }finally {
+        } catch (Exception e) {
+            logger.error("httpClientApi发送请求出现异常response={}", response, e);
+        } finally {
             if (response != null) {
                 response.close();
             }
@@ -217,8 +241,8 @@ public class HttpClientApi implements BeanFactoryAware {
                 data = EntityUtils.toString(httpEntity, "UTF-8");
             }
             return new HttpResult(response.getStatusLine().getStatusCode(), data);
-        }catch (Exception e){
-            logger.error("httpClientApi发送请求出现异常response={}",response, e);
+        } catch (Exception e) {
+            logger.error("httpClientApi发送请求出现异常response={}", response, e);
         } finally {
             if (response != null) {
                 response.close();
@@ -227,14 +251,14 @@ public class HttpClientApi implements BeanFactoryAware {
         return null;
     }
 
-    public HttpResult doPostJson(String url, String json, Map<String,String> headers) throws IOException {
+    public HttpResult doPostJson(String url, String json, Map<String, String> headers) throws IOException {
         // 创建http POST请求
         HttpPost httpPost = new HttpPost(url);
         httpPost.setConfig(requestConfig);
 
-        if(headers != null){
+        if (headers != null) {
             Set<String> set = headers.keySet();
-            for(String key : set){
+            for (String key : set) {
                 httpPost.addHeader(key, headers.get(key));
             }
         }
@@ -254,8 +278,8 @@ public class HttpClientApi implements BeanFactoryAware {
                 data = EntityUtils.toString(httpEntity, "UTF-8");
             }
             return new HttpResult(response.getStatusLine().getStatusCode(), data);
-        }catch (Exception e){
-            logger.error("httpClientApi发送请求出现异常response={}",response, e);
+        } catch (Exception e) {
+            logger.error("httpClientApi发送请求出现异常response={}", response, e);
         } finally {
             if (response != null) {
                 response.close();
@@ -280,9 +304,7 @@ public class HttpClientApi implements BeanFactoryAware {
      * 下载文件
      *
      * @param url
-     * @param filePath
-     *
-     * 建议调用该方法时异步调用
+     * @param filePath 建议调用该方法时异步调用
      */
     public boolean download(final String url, final String filePath) throws IOException {
         httpDownloadFile(url, filePath);
@@ -316,13 +338,14 @@ public class HttpClientApi implements BeanFactoryAware {
             output.close();
             fos.close();
         } catch (Exception e) {
-            logger.error("httpClientApi发送请求出现异常response={}",response, e);
+            logger.error("httpClientApi发送请求出现异常response={}", response, e);
         } finally {
             if (response != null) {
                 response.close();
             }
         }
     }
+
     private CloseableHttpClient getHttpClient() {
         return this.beanFactory.getBean(CloseableHttpClient.class);
     }

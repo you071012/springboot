@@ -1,6 +1,7 @@
 package com.ukar.jdk1_8.function;
 
 import com.ukar.entity.User;
+
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -31,7 +32,7 @@ public class FunctionTest {
 
     }
 
-    private Integer getLength(String str, Function<String, Integer> f){
+    private Integer getLength(String str, Function<String, Integer> f) {
         return f.apply(str);
     }
 }

@@ -19,10 +19,10 @@ import java.io.*;
 
 /**
  * Created by jyou on 2017/9/28.
- *
+ * <p>
  * 友盟推送实现
  */
-public class UMeng{
+public class UMeng {
     private static final Logger logger = LoggerFactory.getLogger(UMeng.class);
 
     private static final String androidAppkey = "521d8a7256240bcde5062c5e";
@@ -36,17 +36,18 @@ public class UMeng{
 
     /**
      * 安卓文件推送
+     *
      * @param fileToken
      * @throws Exception
      */
     public String sendAndroidFilecast(String fileToken, String title) throws Exception {
         PushClient client = new PushClient();
-        AndroidFilecast filecast = new AndroidFilecast(androidAppkey,androidAppMasterSecret);
-        String fileId = client.uploadContents(androidAppkey,androidAppMasterSecret,fileToken);
-        filecast.setFileId( fileId);
-        filecast.setTicker( title);
-        filecast.setTitle(  title);
-        filecast.setText(   "查看详情");
+        AndroidFilecast filecast = new AndroidFilecast(androidAppkey, androidAppMasterSecret);
+        String fileId = client.uploadContents(androidAppkey, androidAppMasterSecret, fileToken);
+        filecast.setFileId(fileId);
+        filecast.setTicker(title);
+        filecast.setTitle(title);
+        filecast.setText("查看详情");
         filecast.goAppAfterOpen();
         filecast.setDisplayType(AndroidNotification.DisplayType.NOTIFICATION);
         filecast.setProductionMode();
@@ -61,13 +62,14 @@ public class UMeng{
 
     /**
      * IOS文件播推送
+     *
      * @param fileToken 需要推送的token，多个token已换行符分隔
      * @throws Exception
      */
     public String sendIOSFilecast(String fileToken, String title) throws Exception {
         PushClient client = new PushClient();
-        IOSFilecast filecast = new IOSFilecast(iosAppkey,iosAppMasterSecret);
-        String fileId = client.uploadContents(iosAppkey,iosAppMasterSecret,fileToken);
+        IOSFilecast filecast = new IOSFilecast(iosAppkey, iosAppMasterSecret);
+        String fileId = client.uploadContents(iosAppkey, iosAppMasterSecret, fileToken);
         filecast.setFileId(fileId);
         filecast.setAlert(title);
         filecast.setProductionMode();
@@ -82,13 +84,14 @@ public class UMeng{
 
     /**
      * 查询推送结果
-     * @param task_id 任务id
+     *
+     * @param task_id         任务id
      * @param app_key
      * @param appMasterSecret
      * @throws Exception
      */
-    public String searchStatus(String task_id,String app_key, String appMasterSecret) throws Exception {
-        String timestamp = Integer.toString((int)(System.currentTimeMillis() / 1000));
+    public String searchStatus(String task_id, String app_key, String appMasterSecret) throws Exception {
+        String timestamp = Integer.toString((int) (System.currentTimeMillis() / 1000));
         org.json.JSONObject json = new org.json.JSONObject();
         json.put("task_id", task_id);
         json.put("appkey", app_key);
@@ -115,32 +118,32 @@ public class UMeng{
     }
 
 
-    public String readFile(String fileName) throws Exception{
+    public String readFile(String fileName) throws Exception {
         File file = new File(fileName);
         StringBuffer buffer = new StringBuffer();
         BufferedReader br = new BufferedReader(new FileReader(file));
         String line = null;
-        while((line = br.readLine())!=null){
+        while ((line = br.readLine()) != null) {
             buffer.append(line);
             buffer.append("\n");
         }
         br.close();
         String str = buffer.toString();
-        str = str.substring(0 , str.length() - 1);
+        str = str.substring(0, str.length() - 1);
         return str;
     }
 
-    public String search(String fileName) throws Exception{
+    public String search(String fileName) throws Exception {
         File file = new File(fileName);
         UMeng umeng = new UMeng();
         StringBuffer buffer = new StringBuffer();
         BufferedReader br = new BufferedReader(new FileReader(file));
 
         String name = "C:\\Users\\jyou\\Desktop\\umeng\\result.txt";
-        BufferedWriter writer = new BufferedWriter(new FileWriter(new File(name),true));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(new File(name), true));
 
         String line = null;
-        while((line = br.readLine())!=null){
+        while ((line = br.readLine()) != null) {
             buffer.append(line);
             String s = buffer.toString();
             String result = s.split("--")[1];
@@ -148,10 +151,10 @@ public class UMeng{
             JSONObject data = (JSONObject) json.get("data");
             String task_id = data.getString("task_id");
             String str = "";
-            if(s.contains("_ios")){
+            if (s.contains("_ios")) {
                 str = umeng.searchStatus(task_id, iosAppkey, iosAppMasterSecret);
                 str = "ios:  " + str;
-            }else if(s.contains("_android")){
+            } else if (s.contains("_android")) {
                 str = umeng.searchStatus(task_id, androidAppkey, androidAppMasterSecret);
                 str = "android:  " + str;
             }
@@ -176,7 +179,7 @@ public class UMeng{
 ////        //TODO 每次都需要更换
         String baseName = "C:\\Users\\jyou\\Desktop\\daihou\\12-13\\";
         String androidFileName = baseName + "ANDROID.txt";
-        String iosFileName =baseName + "IOS.txt";
+        String iosFileName = baseName + "IOS.txt";
         String androidTokens = umeng.readFile(androidFileName);
         String iosTokens = umeng.readFile(iosFileName);
 
@@ -194,16 +197,17 @@ public class UMeng{
 
     /**
      * 贷后安卓文件推送
+     *
      * @param fileToken
      * @throws Exception
      */
     public String sendDaiHouAndroidFilecast(String fileToken, String title, String text) throws Exception {
         PushClient client = new PushClient();
-        AndroidFilecast filecast = new AndroidFilecast(androidAppkey,androidAppMasterSecret);
-        String fileId = client.uploadContents(androidAppkey,androidAppMasterSecret,fileToken);
-        filecast.setFileId( fileId);
-        filecast.setTicker( title);
-        filecast.setTitle(  title);
+        AndroidFilecast filecast = new AndroidFilecast(androidAppkey, androidAppMasterSecret);
+        String fileId = client.uploadContents(androidAppkey, androidAppMasterSecret, fileToken);
+        filecast.setFileId(fileId);
+        filecast.setTicker(title);
+        filecast.setTitle(title);
         filecast.setText(text);
         filecast.goAppAfterOpen();
         filecast.setDisplayType(AndroidNotification.DisplayType.NOTIFICATION);
@@ -215,13 +219,14 @@ public class UMeng{
 
     /**
      * IOS文件播推送
+     *
      * @param fileToken 需要推送的token，多个token已换行符分隔
      * @throws Exception
      */
     public String sendDaiHouIOSFilecast(String fileToken, String title) throws Exception {
         PushClient client = new PushClient();
-        IOSFilecast filecast = new IOSFilecast(iosAppkey,iosAppMasterSecret);
-        String fileId = client.uploadContents(iosAppkey,iosAppMasterSecret,fileToken);
+        IOSFilecast filecast = new IOSFilecast(iosAppkey, iosAppMasterSecret);
+        String fileId = client.uploadContents(iosAppkey, iosAppMasterSecret, fileToken);
         filecast.setFileId(fileId);
         filecast.setAlert(title);
         filecast.setProductionMode();

@@ -21,7 +21,7 @@ public class RedisTest {
     private RedisService redisService;
 
     @Test
-    public void test(){
+    public void test() {
         User user = new User();
         user.setName("张三");
         user.setPassword("123");

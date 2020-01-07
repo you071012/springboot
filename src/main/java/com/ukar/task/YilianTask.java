@@ -27,7 +27,7 @@ public class YilianTask {
     @Resource
     private HttpClientApi httpClientApi;
 
-    @Scheduled(cron="0 0 0 * * ?")
+    @Scheduled(cron = "0 0 0 * * ?")
     public void task() throws IOException {
         System.out.println("------------------------查询易联余额定时任务开始执行--------------------------");
         String s = httpClientApi.doGet("https://www.mo9.com/gateway/proxypay/yilianpay/queryBalance.mhtml");
@@ -41,11 +41,11 @@ public class YilianTask {
         instance.setTime(date);
         int hour = instance.get(Calendar.HOUR);//获取时
         int minute = instance.get(Calendar.MINUTE);//获取分
-        if(hour != 0 && hour != 23){
+        if (hour != 0 && hour != 23) {
             System.out.println("------------------------当前时间不是0点，不发送邮件------------------------");
             return;
         }
-        if((hour == 0 && minute > 3) || (hour == 23 && minute < 57)){
+        if ((hour == 0 && minute > 3) || (hour == 23 && minute < 57)) {
             System.out.println("------------------------当前时间超过指定时间5min，不发送邮件------------------------");
             return;
         }
@@ -53,8 +53,8 @@ public class YilianTask {
         System.out.println("------------------------定时任务执行成功--------------------------");
     }
 
-    @Scheduled(cron="0 0 0/1 * * ?")
-    public void listenTask(){
+    @Scheduled(cron = "0 0 0/1 * * ?")
+    public void listenTask() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
         System.out.println("------------------------系统正常执行中,time=" + sdf.format(date) + "------------------------");

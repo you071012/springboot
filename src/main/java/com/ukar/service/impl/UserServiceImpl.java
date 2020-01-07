@@ -6,24 +6,31 @@ import com.ukar.entity.User;
 import com.ukar.mapper.UserMapper;
 import com.ukar.service.IoexService;
 import com.ukar.service.UserService;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by jyou on 2017/10/24.
  */
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     @Resource
     private UserMapper userMapper;
 
     @Resource
     private IoexService ioexService;
+
+    @Resource
+    private SqlSessionFactory sqlSessionFactory;
 
     @Override
     @Transactional
@@ -35,13 +42,13 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User update(User user) {
-        return null;
+    public void update(User user) {
+        userMapper.updateByPrimaryKey(user);
     }
 
     @Override
     public PageInfo<User> selectList() {
-        PageHelper.startPage(1,2);
+        PageHelper.startPage(1, 2);
         List<User> list = userMapper.select(null);
         PageInfo<User> page = new PageInfo<>(list);
         return page;
@@ -54,16 +61,23 @@ public class UserServiceImpl implements UserService{
     }
 
     @Transactional
-    public void testTransactional(){
+    public void testTransactional() {
         User user = new User();
         user.setName("test00000003");
         user.setPassword("456789");
         userMapper.insertSelective(user);
-        try{
+        try {
             ioexService.updateUser();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void load(String command, String split) {
+        userMapper.load();
+
     }
 
 

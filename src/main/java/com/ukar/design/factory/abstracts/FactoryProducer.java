@@ -7,15 +7,15 @@ import com.ukar.design.factory.abstracts.shape.ShapeFactory;
  * Created by jyou on 2018/4/8.
  */
 public class FactoryProducer {
-    public AbstractFactory getFactory(String choice){
-        if(choice == null){
+    public AbstractFactory getFactory(String choice) {
+        if (choice == null) {
             return null;
         }
-        if(choice.equalsIgnoreCase("shapeFactory")){
+        if (choice.equalsIgnoreCase("shapeFactory")) {
             return new ShapeFactory();
         }
 
-        if(choice.equalsIgnoreCase("colorFactory")){
+        if (choice.equalsIgnoreCase("colorFactory")) {
             return new ColorFactory();
         }
         return null;

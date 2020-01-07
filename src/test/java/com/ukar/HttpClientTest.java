@@ -1,11 +1,19 @@
 package com.ukar;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.sun.jndi.toolkit.url.Uri;
 import com.ukar.httpclient.HttpClientApi;
 import com.ukar.httpclient.bean.HttpResult;
 import com.ukar.util.AdressUtils;
 import com.ukar.util.Md5Encrypt;
 import com.ukar.util.Md5Util;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.impl.client.AbstractHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.params.HttpParams;
+import org.apache.http.protocol.BasicHttpProcessor;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +22,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.*;
 
@@ -33,7 +43,7 @@ public class HttpClientTest {
     Map<String, String> params = new HashMap<String, String>();
 
     @Before
-    public void before(){
+    public void before() {
         headers.put("Client-Id", "401");
         headers.put("Language", "en");
 
@@ -43,7 +53,7 @@ public class HttpClientTest {
 
     @Test
     public void test() throws IOException, URISyntaxException {
-        Map<String,String> map = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
         map.put("ip", "180.167.76.244");
         map.put("ak", "F454f8a5efe5e577997931cc01de3974");
         String url = "http://api.map.baidu.com/location/ip";
@@ -52,8 +62,8 @@ public class HttpClientTest {
     }
 
     @Test
-    public void testPushHandle() throws Exception{
-        Map<String,String> params = new HashMap<>();
+    public void testPushHandle() throws Exception {
+        Map<String, String> params = new HashMap<>();
         params.put("mobile", "15026676160");
         params.put("channel", "UMENG");
         params.put("channelToken", "Ao_BzEdyevrhHpLTVMc8YUwUdmp5oDQ4d0cFxNuv3sMW");
@@ -68,7 +78,7 @@ public class HttpClientTest {
     }
 
     @Test
-    public void tests() throws Exception{
+    public void tests() throws Exception {
         String key = "werocxofsdjnfksdf892349729lkfnnmgn/x,.zx=9=-MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAJGLeWVIS3wo0U2h8lzWjiq5RJJDi14hzsbxxwedhqje123";
         long buyerId = 20148857;
         String operateName = "尤嘉";
@@ -78,9 +88,9 @@ public class HttpClientTest {
         sign = Md5Util.getMD5(sign);
         Map<String, String> params = new HashMap<String, String>();
         params.put("buyerId", String.valueOf(buyerId));
-        params.put("operateName", URLEncoder.encode(operateName,"utf-8"));
+        params.put("operateName", URLEncoder.encode(operateName, "utf-8"));
         params.put("amount", amount);
-        params.put("remark", URLEncoder.encode(remark,"utf-8"));
+        params.put("remark", URLEncoder.encode(remark, "utf-8"));
         params.put("sign", sign);
 //        HttpResult httpResult = httpClient.doPost("https://www.mo9.com/gateway/flash/refund/clearCash.mhtml", params);
         HttpResult httpResult = httpClient.doPost("https://new.mo9.com/gateway/flash/refund/clearCash.mhtml", params);
@@ -160,9 +170,7 @@ public class HttpClientTest {
 
     @Test
     public void testLogin() throws Exception {
-
-
-        for(int i = 0 ; i < 1000; i ++){
+        for (int i = 0; i < 1000; i++) {
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -178,7 +186,6 @@ public class HttpClientTest {
             });
             thread.start();
         }
-
 
 
     }
@@ -200,7 +207,7 @@ public class HttpClientTest {
         /** 代收（代扣）内部密钥secret key. */
         String key = "CDSW79FFMVL9Q0A13DFFJCBZVADETRUOKKJFGW5R3";
 
-        if(null == params || params.size() < 1){
+        if (null == params || params.size() < 1) {
             throw new IllegalArgumentException("代扣业务参数不正确!");
         }
         // 保持与网关签名一致

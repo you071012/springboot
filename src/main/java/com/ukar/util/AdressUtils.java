@@ -21,15 +21,14 @@ public class AdressUtils {
     public static String AK = "F454f8a5efe5e577997931cc01de3974";
 
     /**
-     *
-     * @param map 需求参数ip，ak
+     * @param map        需求参数ip，ak
      * @param httpClient
      * @return
      */
-    public static String getAddresses(Map<String,String> map, HttpClientApi httpClient){
+    public static String getAddresses(Map<String, String> map, HttpClientApi httpClient) {
         try {
-           String response = httpClient.doGet(url, map);
-            if(response != null){
+            String response = httpClient.doGet(url, map);
+            if (response != null) {
                 response = decodeUnicode(response);
             }
             return response;
@@ -44,15 +43,15 @@ public class AdressUtils {
     /**
      * unicode 转换成 中文
      *
-     * @author fanhui 2007-3-15
      * @param theString
      * @return
+     * @author fanhui 2007-3-15
      */
     public static String decodeUnicode(String theString) {
         char aChar;
         int len = theString.length();
         StringBuffer outBuffer = new StringBuffer(len);
-        for (int x = 0; x < len;) {
+        for (int x = 0; x < len; ) {
             aChar = theString.charAt(x++);
             if (aChar == '\\') {
                 aChar = theString.charAt(x++);
@@ -113,18 +112,19 @@ public class AdressUtils {
         }
         return outBuffer.toString();
     }
+
     /*
      *********测试时需要将  applicationContext.xml 中扫描包路径做修改，去除controller的扫描***********
      */
     public static void main(String[] args) {
         // 测试ip 219.136.134.157 中国=华南=广东省=广州市=越秀区=电信
         String ip = "219.136.134.157";
-        Map<String,String> map = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
         map.put("ip", ip);
         map.put("ak", AdressUtils.AK);
         try {
             ApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring/applicationContext*.xml");
-            HttpClientApi httpClient = (HttpClientApi)context.getBean("httpClientApi");
+            HttpClientApi httpClient = (HttpClientApi) context.getBean("httpClientApi");
             String address = AdressUtils.getAddresses(map, httpClient);
             System.out.println(address);
         } catch (Exception e) {

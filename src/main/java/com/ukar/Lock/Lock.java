@@ -12,32 +12,31 @@ import java.util.Date;
  */
 public class Lock {
 
-  private String name;
-  private String value;
+    private String name;
+    private String value;
 
-  public Lock(String name)
-  {
-    this.name = name;
+    public Lock(String name) {
+        this.name = name;
 
-    Date now = new Date();
-    int i = RandomValue.getNum(23,10000);
-    String timestamp = DateFormatUtils.format(now,"yyyyMMddHHmmssSSS");
-    this.value = i+timestamp;
+        Date now = new Date();
+        int i = RandomValue.getNum(23, 10000);
+        String timestamp = DateFormatUtils.format(now, "yyyyMMddHHmmssSSS");
+        this.value = i + timestamp;
 
-  }
+    }
 
-  public Lock(String name, String value) {
-    this.name = name;
-    this.value = value;
-  }
+    public Lock(String name, String value) {
+        this.name = name;
+        this.value = value;
+    }
 
-  public String getName() {
-    return name;
-  }
+    public String getName() {
+        return name;
+    }
 
-  public String getValue() {
-    return value;
-  }
+    public String getValue() {
+        return value;
+    }
 
 }
 

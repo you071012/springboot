@@ -45,7 +45,7 @@ public class JavaMailUtil {
             }
         });
 
-        try{
+        try {
             // 创建默认的 MimeMessage 对象
             MimeMessage message = new MimeMessage(session);
             // 发件人
@@ -59,7 +59,7 @@ public class JavaMailUtil {
             // 发送消息
             Transport.send(message);
             logger.info("邮件发送成功");
-        }catch (MessagingException mex) {
+        } catch (MessagingException mex) {
             mex.printStackTrace();
             logger.info("邮件发送失败");
         }

@@ -17,7 +17,7 @@ import java.util.Map;
 
 /**
  * Created by jyou on 2017/9/22.
- *
+ * <p>
  * redis分布式锁测试
  */
 @RunWith(SpringRunner.class)
@@ -44,7 +44,6 @@ public class IoexTest {
         map.forEach((key, value) -> System.out.println(key + value));
 
     }
-
 
 
 }

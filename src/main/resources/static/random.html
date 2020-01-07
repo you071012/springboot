@@ -25,45 +25,44 @@
     function randomNum(max, length) {
         var min = 1;
         var arr = new Array();
-        for(var i = 0; i < length; i++){
-            var intNum = parseInt(Math.random()*(max-min+1)+min,10).toString();
-            while(true){
+        for (var i = 0; i < length; i++) {
+            var intNum = parseInt(Math.random() * (max - min + 1) + min, 10).toString();
+            while (true) {
                 var index = check(arr, intNum);
-                if(index != -1){
-                    intNum = parseInt(Math.random()*(max-min+1)+min,10).toString();
-                }else{
+                if (index != -1) {
+                    intNum = parseInt(Math.random() * (max - min + 1) + min, 10).toString();
+                } else {
                     break;
                 }
             }
             arr.push(intNum);
         }
 
-        if(max == 35){
+        if (max == 35) {
             arr = arr.sort(numAscSort);
-            document.getElementById("choice_35").innerHTML = "35选5号码：" +  arr.toString();
+            document.getElementById("choice_35").innerHTML = "35选5号码：" + arr.toString();
         }
 
-        if(max == 12){
+        if (max == 12) {
             arr = arr.sort(numAscSort);
-            document.getElementById("choice_12").innerHTML = "12选2号码：" +  arr.toString();
+            document.getElementById("choice_12").innerHTML = "12选2号码：" + arr.toString();
         }
     }
 
-    function check(arr, num){
+    function check(arr, num) {
         var index = -1;
-        for(var i = 0; i < arr.length; i++){
-            if(num == arr[i]){
+        for (var i = 0; i < arr.length; i++) {
+            if (num == arr[i]) {
                 return i;
             }
         }
         return index;
     }
 
-    function numAscSort(a,b)
-    {
+    function numAscSort(a, b) {
         return a - b;
     }
-    
+
 </script>
 
 </html>

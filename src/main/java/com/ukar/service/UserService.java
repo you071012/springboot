@@ -9,11 +9,16 @@ import com.ukar.entity.User;
 public interface UserService {
     User selectOne(long id);
 
-    User update(User user);
+    void update(User user);
 
     PageInfo<User> selectList();
 
     User insert(User user);
 
     void testTransactional();
+
+    /**
+     * load模式加载数据
+     */
+    void load(String command, String split);
 }

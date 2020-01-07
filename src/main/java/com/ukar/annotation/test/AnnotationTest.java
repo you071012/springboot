@@ -13,7 +13,7 @@ import java.lang.reflect.Method;
 public class AnnotationTest {
 
     @AnnotationDemo(value = "method", name = "method_name")
-    public String test(){
+    public String test() {
         System.out.println("注解test执行。。。。。。。。。。。");
         return "执行完毕。。。。。";
     }
@@ -35,8 +35,8 @@ public class AnnotationTest {
          * 获取方法上指定注解
          */
         Method[] methods = clazz.getMethods();
-        for(Method method : methods){
-            if(method.isAnnotationPresent(AnnotationDemo.class)){
+        for (Method method : methods) {
+            if (method.isAnnotationPresent(AnnotationDemo.class)) {
                 AnnotationDemo annotation = method.getAnnotation(AnnotationDemo.class);
                 String value = annotation.value();
                 String name = annotation.name();
@@ -49,7 +49,7 @@ public class AnnotationTest {
          * 获取类上指定注解
          */
         boolean boo = clazz.isAnnotationPresent(AnnotationDemo.class);
-        if(boo){
+        if (boo) {
             AnnotationDemo annotation = clazz.getAnnotation(AnnotationDemo.class);
             System.out.println("value = " + annotation.value());
             System.out.println("name = " + annotation.name());

@@ -8,7 +8,6 @@ import java.math.BigDecimal;
 public class Advertisement {
 
 
-
     private Long id;
 
     private String userCode;

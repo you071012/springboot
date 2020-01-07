@@ -12,16 +12,17 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest("com.ukar.*")
 public class SpringbootApplicationTests {
 
-	@Autowired
-	private RedisPropertis redisPropertis;
+    @Autowired
+    private RedisPropertis redisPropertis;
 
-	@Autowired
-	private RedisService redisService;
-	@Test
-	public void contextLoads() {
-		String host = redisPropertis.getHost();
-		System.out.println(host);
-		redisService.set("key", 123);
-	}
+    @Autowired
+    private RedisService redisService;
+
+    @Test
+    public void contextLoads() {
+        String host = redisPropertis.getHost();
+        System.out.println(host);
+        redisService.set("key", 123);
+    }
 
 }

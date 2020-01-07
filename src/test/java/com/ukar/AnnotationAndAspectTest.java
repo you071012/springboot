@@ -17,7 +17,7 @@ public class AnnotationAndAspectTest {
     private AnnotationTest annotationTest;
 
     @Test
-    public void test(){
+    public void test() {
         String test = annotationTest.test();
         System.out.println(test);
     }
