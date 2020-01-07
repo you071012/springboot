@@ -15,7 +15,7 @@ public class Validate {
     public void validate(Object object) throws Exception {
         Class<?> clazz = object.getClass();
         Class<?> superclass = clazz.getSuperclass();
-        //获取类上所以字段
+        //获取成员变量上所有注解
         Field[] sonFields = clazz.getDeclaredFields();
         Field[] superFields = superclass.getDeclaredFields();
         Field[] fields = new Field[sonFields.length + superFields.length];
