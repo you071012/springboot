@@ -3,6 +3,7 @@ package com.ukar.aspect;
 import com.ukar.annotation.AnnotationDemo;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Aspect
 @Order(-1)//对于存在事物时配置，可以让该切点保证在事物执行之前执行
+@EnableAspectJAutoProxy
 public class AspectTest {
 
     /**
